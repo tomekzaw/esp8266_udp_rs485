@@ -9,8 +9,8 @@
 #define PIN_EN 2 // GPIO2
 
 WiFiUDP Udp;
-IPAddress ipAddressMulticast(224, 1, 2, 3);
 IPAddress interfaceAddress;
+IPAddress ipAddressMulticast(224, 1, 2, 3);
 uint16_t port = 8888;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE]; // buffer to hold incoming packet
 
