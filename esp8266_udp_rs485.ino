@@ -20,7 +20,7 @@ void setup() {
   digitalWrite(PIN_EN, LOW);
   pinMode(PIN_EN, OUTPUT);
   
-  Serial.begin(9600);
+  Serial.begin(9600); // baudrate
 
   #ifdef AP
     WiFi.softAP(STASSID, STAPSK);
@@ -55,7 +55,7 @@ void loop() {
       while (Serial.available()) {
         *ptr++ = Serial.read();
       }
-      delay(4);
+      delay(4); // for 9600 baudrate
     }
 
     Udp.beginPacketMulticast(ipAddressMulticast, port, interfaceAddress);
