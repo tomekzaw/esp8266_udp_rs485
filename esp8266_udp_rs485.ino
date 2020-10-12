@@ -2,15 +2,15 @@
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 
-#ifndef STASSID
 #define STASSID "your-ssid"
 #define STAPSK "your-password"
-#endif
+#define AP // only for access point
 
 #define PIN_EN 2 // GPIO2
 
 WiFiUDP Udp;
 IPAddress ipAddressMulticast(224, 1, 2, 3);
+IPAddress interfaceAddress;
 uint16_t port = 8888;
 char packetBuffer[UDP_TX_PACKET_MAX_SIZE]; // buffer to hold incoming packet
 
@@ -21,14 +21,20 @@ void setup() {
   pinMode(PIN_EN, OUTPUT);
   
   Serial.begin(9600);
+
+  #ifdef AP
+    WiFi.softAP(STASSID, STAPSK);
+    interfaceAddress = WiFi.softAPIP();
+  #else
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(STASSID, STAPSK);
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(10);
+    }
+    interfaceAddress = WiFi.localIP();
+  #endif
   
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(STASSID, STAPSK);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(10);
-  }
-  
-  Udp.beginMulticast(WiFi.localIP(), ipAddressMulticast, port);
+  Udp.beginMulticast(interfaceAddress, ipAddressMulticast, port);
 }
 
 void loop() {
@@ -52,7 +58,7 @@ void loop() {
       delay(4);
     }
 
-    Udp.beginPacketMulticast(ipAddressMulticast, port, WiFi.localIP());
+    Udp.beginPacketMulticast(ipAddressMulticast, port, interfaceAddress);
     Udp.write(packetBuffer, ptr - packetBuffer);
     Udp.endPacket();
   }
