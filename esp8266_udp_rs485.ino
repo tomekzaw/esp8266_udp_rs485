@@ -5,7 +5,7 @@
 #define STAPSK "your-password"
 #define AP // only for access point
 
-#define PIN_EN 2 // GPIO2
+#define PIN_EN 2 // or D2 for NodeMCU
 
 WiFiUDP Udp;
 IPAddress interfaceAddress;
@@ -20,7 +20,7 @@ void setup() {
   pinMode(PIN_EN, OUTPUT);
   
   Serial.begin(9600); // baudrate
-
+  
   #ifdef AP
     WiFi.softAP(STASSID, STAPSK);
     interfaceAddress = WiFi.softAPIP();

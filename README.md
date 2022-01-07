@@ -21,7 +21,7 @@
 * [ESP8266 Arduino core](https://github.com/esp8266/Arduino) (esp8266 by ESP8266 Community installed in board manager)
 
 ## Configuration
-You may either connect all ESP8266 modules to an existing 2.4 GHz Wi-Fi network or choose one module to serve as an access point (AP) to create new Wi-Fi network.
+You may either connect all ESP8266 modules to an existing 2.4 GHz Wi-Fi network or choose one module to serve as an access point (AP) to create a new Wi-Fi network.
 
 The access point should be programmed with the following configuration:
 ```cpp
@@ -64,6 +64,7 @@ while (Serial.available()) {
 ## Notes
 * Connect IO0 pin to GND on power-up in order to set ESP8266 to programming mode.
 * Enable pin should be connected to IO2, because it is turned low during startup (while IO0 is high).
+* In order to use pin D2 on NodeMCU, you must define `PIN_EN` as `D2` instead of `2` (see [here](https://github.com/esp8266/Arduino/blob/b5f3d1d6d57281642f3e034a215146da61b0771e/variants/nodemcu/pins_arduino.h#L42))
 * ESP8266 modules support only 2.4 GHz Wi-Fi.
-* UDP is unreliable – some packets might get lost along the way (see [UDP](https://en.wikipedia.org/wiki/User_Datagram_Protocol)).
+* UDP is unreliable – some packets might get lost along the way (see [here](https://en.wikipedia.org/wiki/User_Datagram_Protocol)).
 * Some routers/switches pass UDP multicast packets only to subscription group members (see [IGMP](https://en.wikipedia.org/wiki/Internet_Group_Management_Protocol)).
